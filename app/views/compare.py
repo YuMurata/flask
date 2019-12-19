@@ -1,5 +1,5 @@
 from flask import Blueprint, render_template, request, jsonify
-from app.models import to_base64, image_path_dict
+from app.process import to_base64, image_path_dict
 from PIL import Image
 
 compare_bp = Blueprint('bp', __name__)

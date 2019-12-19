@@ -1,9 +1,22 @@
 from flask import Flask, render_template
 from .views import bp_list
+from .database import init_db
+from . import models
 
-app = Flask(__name__)
-for bp in bp_list:
-    app.register_blueprint(bp)
+
+def create_app():
+    app = Flask(__name__)
+    app.config.from_object('app.config.Config')
+
+    init_db(app)
+
+    for bp in bp_list:
+        app.register_blueprint(bp)
+
+    return app
+
+
+app = create_app()
 
 
 @app.route('/')
