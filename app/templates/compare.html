@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <link rel="stylesheet" href="/static/css/compare.css">
+    <meta charset="utf-8">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="static/js/compare.js"></script>
+    <title>compare</title>
+</head>
+
+<body>
+    <div class="parent">
+        <img class="canvas" src="{{left_image}}" id="left_image">
+        <img class="canvas" src="{{right_image}}" id="right_image">
+    </div>
+
+    <div class="parent">
+        <div class="description">左が好き:f</div>
+        <div class="description">右が好き:j</div>
+    </div>
+
+    <div class="parent">
+        <div class="description">両方好き:g</div>
+        <div class="description">両方嫌い:h</div>
+    </div>
+
+    <div class="count">
+        count=<span id="count">{{count}}</span>
+    </div>
+</body>
+
+</html>
