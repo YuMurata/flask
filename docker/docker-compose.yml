@@ -11,6 +11,7 @@ services:
       - ./docker/db/my.cnf:/etc/mysql/conf.d/my.cnf
     ports:
       - 7582:3306
+
   phpmyadmin:
     container_name: example-admin
     image: phpmyadmin/phpmyadmin
@@ -20,3 +21,6 @@ services:
       - PMA_PASSWORD=p@ssw0rd
     ports:
       - 10111:80
+
+  python:
+    build: ./python
