@@ -23,4 +23,5 @@ services:
       - 10111:80
 
   python:
-    build: ./python
+    container_name: python38
+    image: python:3.8
