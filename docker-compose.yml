@@ -1,4 +1,4 @@
-version: '3'
+version: "3"
 services:
   db:
     container_name: example-db
@@ -25,3 +25,5 @@ services:
   python:
     container_name: python38
     image: python:3.8
+    volumes:
+      - ./:/flask
