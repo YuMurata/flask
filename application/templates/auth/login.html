@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>Login</title>
+</head>
+{% include "auth/header.html" %}
+
+<body>
+    <h1>ログイン</h1>
+    <form action="/login" method="POST">
+        <div>
+            <input type="text" name="user_name" placeholder="user name">
+            <input type="password" name="password" placeholder="password">
+            <input type="submit" value="Login">
+        </div>
+        <div>
+            <label>
+                <input type="checkbox">
+                Remember me
+            </label>
+        </div>
+    </form>
+    <a href="/signup">新規登録はこちら</a>
+</body>
+
+</html>
