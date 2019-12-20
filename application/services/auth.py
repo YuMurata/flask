@@ -1,6 +1,6 @@
 from flask_login import login_user
-from app.database import db
-from app.models.user import User
+from application.database import db
+from application.models.user import User
 
 
 class AuthException(Exception):
