@@ -1,11 +1,11 @@
 import os
 
 
-class DevelopmentConfig:
+class Config:
+    DEBUG = False
+    SECRET_KEY = os.urandom(24)
 
     # Flask
-    DEBUG = True
-    SECRET_KEY = os.urandom(24)
 
     # SQLAlchemy
     SQLALCHEMY_DATABASE_URI = 'mysql+pymysql://{user}:{password}@{host}:{port}/database?charset=utf8mb4'.format(**{
@@ -19,4 +19,14 @@ class DevelopmentConfig:
     SQLALCHEMY_ECHO = False
 
 
-Config = DevelopmentConfig
+class DebugConfig(Config):
+    DEBUG = True
+
+
+def get_config(config_name: str) -> str:
+    base_route = 'application.config.'
+    config_dict = {
+        'default': base_route+'Config',
+        'debug': base_route+'DebugConfig'
+    }
+    return config_dict

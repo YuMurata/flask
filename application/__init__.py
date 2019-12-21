@@ -1,12 +1,13 @@
 from flask import Flask
-from application.database import initialize_database
-from application.views import bp_list
-from application.auth import create_login_manager
+from .database import initialize_database
+from .views import bp_list
+from .auth import create_login_manager
+from .config import get_config
 
 
 def create_app():
     app = Flask(__name__)
-    app.config.from_object('application.config.Config')
+    app.config.from_object(get_config('debug'))
 
     initialize_database(app)
 
