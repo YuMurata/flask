@@ -1,27 +1,37 @@
-<!DOCTYPE html>
+{% extends "auth/base.html" %}
 
-<head>
-    <meta charset="UTF-8">
-    <title>Login</title>
-</head>
-{% include "auth/header.html" %}
-
-<body>
-    <h1>ログイン</h1>
-    <form action="/login" method="POST">
-        <div>
-            <input type="text" name="user_name" placeholder="user name">
-            <input type="password" name="password" placeholder="password">
-            <input type="submit" value="Login">
+{% block content %}
+<div class="column is-4 is-offset-4">
+    <h3 class="title">Login</h3>
+    <div class="box">
+        {% with messages = get_flashed_messages() %}
+        {% if messages %}
+        <div class="notification is-danger">
+            {{ messages[0] }}。
         </div>
-        <div>
-            <label>
-                <input type="checkbox">
-                Remember me
-            </label>
-        </div>
-    </form>
-    <a href="/signup">新規登録はこちら</a>
-</body>
+        {% endif %}
+        {% endwith %}
+        <form method="POST" action="/login">
+            <div class="field">
+                <div class="control">
+                    <input class="input is-large" type="text" name="user_id" placeholder="Your ID" autofocus="">
+                </div>
+            </div>
 
-</html>
+            <div class="field">
+                <div class="control">
+                    <input class="input is-large" type="password" name="password" placeholder="Your Password">
+                </div>
+            </div>
+
+            <div class="field">
+                <label class="checkbox">
+                    <input type="checkbox">
+                    Remember me
+                </label>
+            </div>
+            <button class="button is-block is-info is-large is-fullwidth">Login</button>
+        </form>
+    </div>
+</div>
+{% endblock %}

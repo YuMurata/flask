@@ -1,13 +1,10 @@
-<!DOCTYPE html>
-<html lang="en">
+{% extends "auth/base.html" %}
 
-<head>
-    <meta charset="UTF-8">
-    <title>HELLO</title>
-</head>
-{% include "header.html" %}
-<body>
-    <p>Sayhello</p>
-</body>
-
-</html>
+{% block content %}
+<h1 class="title">
+    Flask Login Example
+</h1>
+<h2 class="subtitle">
+    Easy authentication and authorization in Flask.
+</h2>
+{% endblock %}

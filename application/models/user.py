@@ -6,22 +6,19 @@ from application.database import db
 
 class User(db.Model, UserMixin):
     id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(1000))
+
+    max_id_length = 1000
+    user_id = db.Column(db.String(max_id_length))
+
+    max_name_length = 1000
+    name = db.Column(db.String(max_name_length))
+
     password = db.Column(db.String(100))
 
-    @classmethod
-    def from_args(cls, name: str, password: str):
-        instance = cls()
-        instance.name = name
-
-        if password is not None:
-            instance.hash_password(password)
-
-        return instance
-
-    def hash_password(self, clean_password):
-        self.password = generate_password_hash(
-            str(clean_password), method='sha256')
+    def __init__(self,user_id:str, name: str, password: str):
+        self.user_id = user_id
+        self.name = name
+        self.password = generate_password_hash(password, method='sha256')
 
     def check_password(self, clean_password):
         return check_password_hash(self.password, clean_password)

@@ -13,16 +13,17 @@ class Category:
 def login():
     if request.method == 'GET':
         return render_template('auth/login.html')
+
     else:
         try:
             auth.login(request.form)
 
-        except auth.AuthException as e:
-            flash(e, Category.FAILED)
+        except auth.LoginException as e:
+            flash(e)
             return render_template('auth/login.html')
 
         else:
-            flash('ログインしました。', Category.SUCCESS)
+            flash('ログインしました')
             return redirect(url_for('index'))
 
 
@@ -35,11 +36,11 @@ def signup():
         try:
             auth.signup(request.form)
 
-        except auth.UserExistedEcxeption as e:
-            flash(e, Category.FAILED)
+        except auth.SignupException as e:
+            flash(str(e))
+            return redirect(url_for('auth_bp.signup'))
 
         else:
-            flash('新規登録に成功しました。', Category.SUCCESS)
-
-        finally:
+            flash('新規登録に成功しました')
             return redirect(url_for('index_bp.index'))
+
