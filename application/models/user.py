@@ -5,7 +5,7 @@ from application.database import db
 
 
 class User(db.Model, UserMixin):
-    unique_id = db.Column(db.Integer, primary_key=True)
+    id = db.Column(db.Integer, primary_key=True)
 
     max_id_length = 1000
     user_id = db.Column(db.String(max_id_length))

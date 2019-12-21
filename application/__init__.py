@@ -18,8 +18,8 @@ def create_app():
     login_manager = create_login_manager(app)
 
     @login_manager.user_loader
-    def load_user(unique_id):
-        return User.query.get(unique_id)
+    def load_user(id):
+        return User.query.get(id)
 
     return app
 
