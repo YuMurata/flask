@@ -24,7 +24,10 @@ services:
 
   python:
     container_name: python38
-    image: python:3.8
+    build:
+      context: ./dockerfiles
+      dockerfile: python38.dockerfile
+
     volumes:
       - ./:/flask
     stdin_open: true
