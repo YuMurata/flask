@@ -29,4 +29,4 @@ def get_config(config_name: str) -> str:
         'default': base_route+'Config',
         'debug': base_route+'DebugConfig'
     }
-    return config_dict
+    return config_dict[config_name]

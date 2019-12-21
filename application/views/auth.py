@@ -24,7 +24,7 @@ def login():
 
         else:
             flash('ログインしました')
-            return redirect(url_for('index'))
+            return redirect(url_for('index_bp.index'))
 
 
 @auth_bp.route('/signup', methods=['GET', 'POST'])
@@ -41,6 +41,5 @@ def signup():
             return redirect(url_for('auth_bp.signup'))
 
         else:
-            flash('新規登録に成功しました')
             return redirect(url_for('index_bp.index'))
 
