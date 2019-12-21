@@ -27,3 +27,5 @@ services:
     image: python:3.8
     volumes:
       - ./:/flask
+    stdin_open: true
+    tty: true
