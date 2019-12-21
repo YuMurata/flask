@@ -5,7 +5,7 @@ from application.database import db
 
 
 class User(db.Model, UserMixin):
-    id = db.Column(db.Integer, primary_key=True)
+    unique_id = db.Column(db.Integer, primary_key=True)
 
     max_id_length = 1000
     user_id = db.Column(db.String(max_id_length))
@@ -15,7 +15,7 @@ class User(db.Model, UserMixin):
 
     password = db.Column(db.String(100))
 
-    def __init__(self,user_id:str, name: str, password: str):
+    def __init__(self, user_id: str, name: str, password: str):
         self.user_id = user_id
         self.name = name
         self.password = generate_password_hash(password, method='sha256')

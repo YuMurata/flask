@@ -3,6 +3,7 @@ from .database import initialize_database
 from .views import bp_list
 from .auth import create_login_manager
 from .config import get_config
+from .models import User
 
 
 def create_app():
@@ -14,8 +15,13 @@ def create_app():
     for bp in bp_list:
         app.register_blueprint(bp)
 
+    login_manager = create_login_manager(app)
+
+    @login_manager.user_loader
+    def load_user(unique_id):
+        return User.query.get(unique_id)
+
     return app
 
 
 app = create_app()
-login_manager = create_login_manager(app)
