@@ -29,7 +29,7 @@ def signup(data: dict) -> typing.NoReturn:
         raise SignupException(
             f'パスワードは {required_password_length} 文字以上にして下さい')
 
-    new_user = User(name, password)
+    new_user = User(user_id, name, password)
 
     try:
         db.session.add(new_user)
