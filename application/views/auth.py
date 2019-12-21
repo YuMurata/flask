@@ -1,5 +1,6 @@
 from flask import Blueprint, render_template, request, flash, redirect, url_for
 from application.services import auth
+from flask_login import login_required, logout_user
 
 auth_bp = Blueprint('auth_bp', __name__)
 
@@ -43,3 +44,9 @@ def signup():
         else:
             return redirect(url_for('index_bp.index'))
 
+
+@auth_bp.route('/logout')
+@login_required
+def logout():
+    logout_user()
+    return redirect(url_for('index_bp.index'))
