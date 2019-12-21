@@ -30,3 +30,9 @@ services:
     stdin_open: true
     tty: true
     ports: 5000:5000
+    command: >
+      bash -c "cd flask &&
+      pip install pipenv"
+    environment:
+      - FLASK_APP=run.py
+
