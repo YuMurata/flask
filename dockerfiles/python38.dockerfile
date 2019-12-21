@@ -1,5 +1,7 @@
 FROM python:3.8
 
+ENTRYPOINT [ "bash", "-c" ]
+
 CMD ["cd","flask", "&&",\
     " pip"," install", "pipenv", "&&",\
     "pipenv","install", "&&",\
