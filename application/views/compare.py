@@ -9,6 +9,7 @@ compare_bp = Blueprint('bp', __name__)
 def compare():
     if request.method == 'POST':
         key = request.form['key']
+
         image_path = image_path_dict['giraffe'] if key == 'F' else image_path_dict['heart']
         giraffe = to_base64(Image.open(image_path))
         return jsonify({'left_image': giraffe,

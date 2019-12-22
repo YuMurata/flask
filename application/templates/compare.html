@@ -15,9 +15,7 @@
 
 
 {% block content %}
-<!-- <div class="tile is-ancestor has-background-white box">
-    <div class="tile has-background-info is-6 is-parent">
-        <div class="tile is-child"> -->
+
 <div class="columns">
     <div class="column">
         <figure class="image is-square">
@@ -32,18 +30,22 @@
     </div>
 </div>
 
+<div class="container">
+    <span> 残り選択回数： </span> <span id="count"> {{count}} </span>
+</div>
+
 <div class="level">
     <div class="level-item has-text-centered">
-        左が好き:←
+        左が好き：←
     </div>
     <div class="level-item has-text-centered">
-        両方好き:↑
+        両方好き：↑
     </div>
     <div class="level-item has-text-centered">
-        両方嫌い:↓
+        両方嫌い：↓
     </div>
     <div class="level-item has-text-centered">
-        右が好き:→
+        右が好き：→
     </div>
 </div>
 
