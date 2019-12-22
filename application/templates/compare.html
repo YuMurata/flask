@@ -1,33 +1,50 @@
-<!DOCTYPE html>
-<html>
+{% extends "base.html" %}
 
-<head>
-    <link rel="stylesheet" href="/static/css/compare.css">
-    <meta charset="utf-8">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
-    <script src="static/js/compare.js"></script>
-    <title>compare</title>
-</head>
+{% block additional_head %}
 
-<body>
-    <div class="parent">
-        <img class="canvas" src="{{left_image}}" id="left_image">
-        <img class="canvas" src="{{right_image}}" id="right_image">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<script src="static/js/compare.js"></script>
+
+<style>
+    .thumbnail {
+        width: 200px;
+        height: 200px;
+    }
+</style>
+{% endblock %}
+
+
+{% block content %}
+<!-- <div class="tile is-ancestor has-background-white box">
+    <div class="tile has-background-info is-6 is-parent">
+        <div class="tile is-child"> -->
+<div class="columns">
+    <div class="column">
+        <figure class="image is-square">
+            <img src="{{left_image}}" id="left_image" class="thumbnail">
+        </figure>
     </div>
 
-    <div class="parent">
-        <div class="description">左が好き:f</div>
-        <div class="description">右が好き:j</div>
+    <div class="column">
+        <figure class="image is-square">
+            <img src="{{right_image}}" id="right_image" class="thumbnail">
+        </figure>
     </div>
+</div>
 
-    <div class="parent">
-        <div class="description">両方好き:g</div>
-        <div class="description">両方嫌い:h</div>
+<div class="level">
+    <div class="level-item has-text-centered">
+        左が好き:←
     </div>
-
-    <div class="count">
-        count=<span id="count">{{count}}</span>
+    <div class="level-item has-text-centered">
+        両方好き:↑
     </div>
-</body>
+    <div class="level-item has-text-centered">
+        両方嫌い:↓
+    </div>
+    <div class="level-item has-text-centered">
+        右が好き:→
+    </div>
+</div>
 
-</html>
+{% endblock %}}
