@@ -1,11 +1,21 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>HELLO</title>
-</head>
-<body>
-    <h1>precure</h1>
-    <img src="/static/images/heart.jpg" alt="プリキュア">
-</body>
-</html>
+{% extends "base.html" %}
+
+{% block content %}
+<div class="tile is-ancestor has-background-white box">
+
+    {%  for image_dict in image_dict_list %}
+    <div class="tile is-parent is-3 is-vertical">
+        <div class="tile is-child">
+            <img src="{{image_dict.path}}" alt="{{image_dict.name}}" class=thumbnail width="300px" height="300px">
+        </div>
+
+        <div class="tile is-child">
+            <form method="POST" action=/select_image> <button class="button is-primary is-large" name="select"
+                value={{image_dict.name}}>Go</button>
+            </form>
+        </div>
+    </div>
+    {% endfor %}
+
+</div>
+{% endblock %}
