@@ -41,6 +41,5 @@ services:
       pipenv shell &&
       flask db init &&
       flask db migrate &&
-      flask db upgrade &&
-      python run.py'
+      flask db upgrade'
 
