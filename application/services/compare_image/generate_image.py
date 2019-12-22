@@ -7,7 +7,7 @@ def enhance(param) -> Image:
     pass
 
 
-def to_base64(image: Image):
+def to_base64(image: Image) -> str:
 
     output = io.BytesIO()
     image.save(output, format='PNG')
