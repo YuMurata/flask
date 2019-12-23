@@ -24,7 +24,7 @@ def signup(data: dict) -> typing.NoReturn:
     if not user_id.isalnum():
         raise SignupException('ユーザ名は英数字のみにして下さい')
 
-    required_password_length = 8
+    required_password_length = 1
     if len(password) < required_password_length:
         raise SignupException(
             f'パスワードは {required_password_length} 文字以上にして下さい')
