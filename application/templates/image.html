@@ -7,10 +7,12 @@
         height: 300px;
     }
 </style>
+
+<link rel="stylesheet" type="text/css" href="static/css/checkmark.css">
 {% endblock %}
 
-{% block content %}
 
+{% block content %}
 
 <div class="notification is-info has-text-left">
     <h1 class="title">
@@ -27,13 +29,12 @@
     </p>
 </div>
 
-
 <div class="tile is-ancestor has-background-white box">
 
     <div class="tile is-parent is-vertical">
 
         {% for image_dict_list in image_dict_table %}
-        <div class="tile">
+        <div class="tile box">
 
             {%  for image_dict in image_dict_list %}
             <div class="tile is-parent is-3 is-vertical">
@@ -44,10 +45,18 @@
                 </div>
 
                 <div class="tile is-child">
+                    {% if image_dict.is_compared %}
+                    <span class="checkmark">比較済み</span>
+                    {% else %}
+                    <span>未比較</span>
+                    {% endif %}
+
                     <form method="POST" action=/select_image> <button class="button is-primary is-large" name="select"
                         value={{image_dict.name}}>Go</button>
                     </form>
+
                 </div>
+
             </div>
             {% endfor %}
 

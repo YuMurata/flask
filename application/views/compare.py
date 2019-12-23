@@ -10,10 +10,12 @@ def image():
     image_dict_list = [
         {
             'path': 'static/images/'+image_path.name,
-            'name': name
+            'name': name,
+            'is_compared': True
         }
         for name, image_path in image_path_dict.items()
     ]
+    image_dict_list[0]['is_compared'] = False
     n = 4
     image_dict_table = [image_dict_list[idx:idx+n]
                         for idx in range(0, len(image_dict_list), n)]
