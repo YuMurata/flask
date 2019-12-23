@@ -14,8 +14,11 @@ def image():
         }
         for name, image_path in image_path_dict.items()
     ]
-    image_dict_list.extend(image_dict_list)
-    return render_template('image.html', image_dict_list=image_dict_list)
+    n = 4
+    image_dict_table = [image_dict_list[idx:idx+n]
+                        for idx in range(0, len(image_dict_list), n)]
+
+    return render_template('image.html', image_dict_table=image_dict_table)
 
 
 @compare_bp.route('/select_image', methods=['POST'])
