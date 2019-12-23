@@ -1,23 +1,33 @@
-from flask import Blueprint, render_template, request, jsonify
-from application.services.compare_image import to_base64, image_path_dict
-from PIL import Image
+from flask import render_template, request
+from flask_login import login_required
+from application.services.compare_image import image_path_dict
+from application.services.compare_image import compare_bp, comparer
 
-compare_bp = Blueprint('bp', __name__)
+
+@compare_bp.route('/image')
+@login_required
+def image():
+    image_dict_list = [
+        {
+            'path': 'static/images/'+image_path.name,
+            'name': name
+        }
+        for name, image_path in image_path_dict.items()
+    ]
+    image_dict_list.extend(image_dict_list)
+    return render_template('image.html', image_dict_list=image_dict_list)
 
 
-@compare_bp.route('/compare', methods=['GET', 'POST'])
-def compare():
-    if request.method == 'POST':
-        key = request.form['key']
+@compare_bp.route('/select_image', methods=['POST'])
+@login_required
+def select_image():
+    image_name = request.form['select']
 
-        image_path = image_path_dict['giraffe'] if key == 'F' else image_path_dict['heart']
-        giraffe = to_base64(Image.open(image_path))
-        return jsonify({'left_image': giraffe,
-                        'right_image': giraffe,
-                        "count": 10})
+    comparer.make_tournament(image_name)
+    count = comparer.tournament.get_match_num
+    is_complete, (left_player, right_player) = comparer.tournament.new_match()
 
-    heart = to_base64(Image.open(image_path_dict['heart']))
     return render_template('compare.html',
-                           left_image=heart,
-                           right_image=heart,
-                           count=100)
+                           left_image=left_player.decode(),
+                           right_image=right_player.decode(),
+                           count=count)

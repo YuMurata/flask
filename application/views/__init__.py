@@ -1,3 +1,3 @@
-from . import auth, compare, index, sandbox
+from . import auth, compare, index
 bp_list = [auth.auth_bp, compare.compare_bp,
-           index.index_bp, sandbox.sandbox_bp]
+           index.index_bp]
