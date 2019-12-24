@@ -1,0 +1,66 @@
+{% extends "base.html" %}
+
+{% block additional_head %}
+<style>
+    .horizontal-list {
+        overflow-x: auto;
+        white-space: nowrap;
+        -webkit-overflow-scrolling: touch;
+        /* background: white; */
+    }
+
+    .item {
+        /* 横スクロール用 */
+        display: inline-block;
+        /* width: 90%; */
+
+        /* 見た目調整 */
+        /* height: 400px; */
+        margin: 16px;
+        /* font-size: 48px; */
+    }
+
+    .thumbnail {
+        width: 300px;
+        height: 300px;
+    }
+</style>
+{% endblock %}
+
+
+{% block content %}
+<div class="columns is-vcentered">
+    <div class="column is-1">
+        <p class="content has-text-centerd">好き</p>
+    </div>
+
+    <div class="column is-10 box">
+        <ul class="horizontal-list">
+
+            {%  for image_src in image_list %}
+            <li class="item">
+
+                <div>
+                    <img src="{{image_src}}" class="thumbnail">
+                </div>
+
+            </li>
+            {% endfor %}
+
+        </ul>
+    </div>
+
+    <div class="column is-1">
+        <p class="content has-text-centerd">嫌い</p>
+    </div>
+</div>
+
+<div class="columns">
+    <div class="column">
+        <form method="POST" action=/sandbox_2> <button class="button is-primary is-large" name="select" value="unk">
+            見る</button>
+        </form>
+    </div>
+</div>
+
+{% endblock %}
