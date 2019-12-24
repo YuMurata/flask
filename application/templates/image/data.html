@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="tile is-ancestor has-background-white box">
+
+    <div class="tile is-parent is-vertical">
+
+        {% for image_dict_list in image_dict_table %}
+        <div class="tile box">
+
+            {%  for image_dict in image_dict_list %}
+            <div class="tile is-parent is-3 is-vertical">
+                <div class="tile is-child">
+                    <figure class="image is-square">
+                        <img src="{{image_dict.path}}" alt="{{image_dict.name}}" class="thumbnail">
+                    </figure>
+                </div>
+
+                <div class="tile is-child">
+
+                    <form method="POST" action=/sandbox_2> <button class="button is-primary is-large" name="select"
+                        value={{image_dict.name}}>見る</button>
+                    </form>
+
+                </div>
+
+            </div>
+            {% endfor %}
+
+        </div>
+        {% endfor %}
+
+    </div>
+
+</div>
+{% endblock %}
