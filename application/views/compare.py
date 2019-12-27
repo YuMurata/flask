@@ -1,7 +1,7 @@
 from flask import render_template, request
-from flask_login import login_required
+from flask_login import login_required, current_user
 from application.services.compare_image import image_path_dict
-from application.services.compare_image import compare_bp, comparer
+from application.services.compare_image import compare_bp, get_comparer
 
 
 @compare_bp.route('/image')
@@ -28,6 +28,7 @@ def image():
 def select_image():
     image_name = request.form['select']
 
+    comparer = get_comparer(current_user.name)
     comparer.make_tournament(image_name)
     count = comparer.tournament.get_match_num
     is_complete, (left_player, right_player) = comparer.tournament.new_match()

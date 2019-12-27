@@ -1,7 +1,7 @@
 from flask import Blueprint, request, jsonify
 from flask_login import current_user, login_required
 from .Tournament import Tournament
-from .comparer import comparer
+from .comparer import get_comparer
 from .DataWriter import root_save_dir_path, write, SUFFIX
 from application.models import ScoredParam
 from application.database import db
@@ -22,6 +22,7 @@ def compare():
         'both_lose': Tournament.GameWin.BOTH_LOSE,
     }
 
+    comparer = get_comparer(current_user.name)
     comparer.tournament.compete(keycode_map[keycode])
     if comparer.tournament.is_complete:
         _save_param()

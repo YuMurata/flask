@@ -22,4 +22,7 @@ class Comparer:
         self.tournament = Tournament(self.player_list)
 
 
-comparer = Comparer()
+comparer_dict = {}
+
+def get_comparer(user_name):
+    return comparer_dict.setdefault(user_name, Comparer())
