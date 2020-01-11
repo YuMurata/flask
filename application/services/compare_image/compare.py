@@ -1,7 +1,7 @@
-from flask import Blueprint, request, jsonify
+from flask import Blueprint, request, jsonify, session
 from flask_login import current_user, login_required
 from .Tournament import Tournament
-from .comparer import get_comparer
+from .comparer import Comparer, ComparerSession
 from .DataWriter import root_save_dir_path, write, SUFFIX
 from application.models import ScoredParam
 from application.database import db
@@ -22,10 +22,10 @@ def compare():
         'both_lose': Tournament.GameWin.BOTH_LOSE,
     }
 
-    comparer = get_comparer(current_user.name)
+    comparer = ComparerSession.get_from_session()
     comparer.tournament.compete(keycode_map[keycode])
     if comparer.tournament.is_complete:
-        _save_param()
+        _save_param(comparer)
         return jsonify({"is_complete": True})
 
     count = comparer.tournament.get_match_num
@@ -39,7 +39,7 @@ def compare():
                     'is_complete': is_complete})
 
 
-def _save_param():
+def _save_param(comparer: Comparer):
     save_dir_path = \
         root_save_dir_path/current_user.name/comparer.image_name
     save_dir_path.mkdir(parents=True, exist_ok=True)
