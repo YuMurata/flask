@@ -8,7 +8,7 @@ class CompareData(db.Model):
 
     score = db.Column(db.Integer)
     brightness = db.Column(db.Float)
-    color = db.Column(db.Float)
+    saturation = db.Column(db.Float)
     contrast = db.Column(db.Float)
     sharpness = db.Column(db.Float)
 
@@ -16,7 +16,7 @@ class CompareData(db.Model):
         self.user_name = user_name
 
         self.brightness = param['brightness']
-        self.color = param['saturation']
+        self.saturation = param['saturation']
         self.contrast = param['contrast']
         self.sharpness = param['sharpness']
 
@@ -37,7 +37,7 @@ class CompareData(db.Model):
         return {
             'param': {
                 'brightness': self.brightness,
-                'color': self.color,
+                'saturation': self.saturation,
                 'contrast': self.contrast,
                 'sharpness': self.sharpness,
             },
