@@ -47,8 +47,10 @@ class Comparer:
         player_num = 100
 
         try:
-            for param in generate_random_param_list(player_num):
-                db.session.add(CompareData(current_user.name, param))
+            compare_data_list = [CompareData(current_user.name, param)
+                                 for param in generate_random_param_list(player_num)]
+
+            db.session.add_all(compare_data_list)
             db.session.commit()
         except Exception:
             db.session.rollback()
