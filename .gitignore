@@ -127,3 +127,5 @@ dmypy.json
 .vscode/
 here.pth
 docker/
+application/sample.db
+application/views/sandbox

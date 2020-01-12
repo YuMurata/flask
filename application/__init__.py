@@ -8,7 +8,7 @@ from .models import User
 
 def create_app():
     app = Flask(__name__)
-    app.config.from_object(get_config('debug'))
+    app.config.from_object(get_config('local'))
 
     initialize_database(app)
 

@@ -21,12 +21,18 @@ class Config:
 
 class DebugConfig(Config):
     DEBUG = True
+    SQLALCHEMY_ECHO = True
+
+
+class LocalConfig(DebugConfig):
+    SQLALCHEMY_DATABASE_URI = 'sqlite:///sample.db'
 
 
 def get_config(config_name: str) -> str:
     base_route = 'application.config.'
     config_dict = {
         'default': base_route+'Config',
-        'debug': base_route+'DebugConfig'
+        'debug': base_route+'DebugConfig',
+        'local': base_route+'LocalConfig'
     }
     return config_dict[config_name]
