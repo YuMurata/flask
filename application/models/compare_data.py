@@ -14,6 +14,7 @@ class CompareData(db.Model):
 
     def __init__(self, user_name: str, param: dict):
         self.user_name = user_name
+    __tablename__ = 'compare_data'
 
         self.brightness = param['brightness']
         self.saturation = param['saturation']
@@ -21,9 +22,12 @@ class CompareData(db.Model):
         self.sharpness = param['sharpness']
 
         self.score = 1
+    user_id = \
+        db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
 
     def score_up(self):
         self.score *= 2
+    user = db.relationship('User', backref=__tablename__)
 
         try:
             db.session.commit()

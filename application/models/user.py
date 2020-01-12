@@ -5,10 +5,12 @@ from application.database import db
 
 
 class User(db.Model, UserMixin):
+    __tablename__ = 'user'
+
     id = db.Column(db.Integer, primary_key=True)
 
     max_id_length = 1000
-    user_id = db.Column(db.String(max_id_length))
+    user_id = db.Column(db.String(max_id_length), unique=True)
 
     max_name_length = 1000
     name = db.Column(db.String(max_name_length))
