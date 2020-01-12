@@ -1,11 +1,10 @@
-from .Tournament.Tournament import Player, Tournament, PlayerGroup
+from .Tournament.Tournament import Player, Tournament
 from .ImageEnhancer import generate_random_param_list
 from .enhance_encoder import EnhanceEncoder
 from .image_path import image_path_dict
-from flask import session
-from application.models.compare_data import CompareData
 from flask_login import current_user
 from application.database import db
+from application.models.compare_data import CompareData
 from sqlalchemy.exc import SQLAlchemyError
 
 
@@ -18,21 +17,6 @@ class EnhancePlayer(Player):
         return self.encoder.Encode(self.param)
 
 
-class EnhancePlayerGroup(PlayerGroup):
-    def __init__(self, encoder: EnhanceEncoder):
-        self.encoder = encoder
-
-    def score_up(self, index: int):
-        CompareData.query.filter_by(
-            user_name=current_user.name).get(index+1).score_up()
-
-    def get_player(self, index: int) -> EnhancePlayer:
-        data = CompareData.query.filter_by(
-            user_name=current_user.name).get(index+1).to_dict()
-
-        return EnhancePlayer(data['param'], self.encoder, data['score'])
-
-
 class ComparerException(Exception):
     pass
 
@@ -43,14 +27,37 @@ class Comparer:
         self.tournament = tournament
 
     @classmethod
-    def gen_from_image_name(cls, image_name: str):
+    def make_tournament(cls, image_name: str) -> Tournament:
         player_num = 100
+        encoder = EnhanceEncoder(image_path_dict[image_name])
+        player_list = \
+            [EnhancePlayer(param, encoder)
+             for param in generate_random_param_list(player_num)]
+
+        return Tournament(player_list)
+
+
+class CompareSession:
+    @classmethod
+    def is_in_session(cls) -> bool:
+        data = CompareData.query.filter_by(user=current_user).first()
+        return data is not None
+
+    @classmethod
+    def get(cls) -> Comparer:
+        if not cls.is_in_session():
+            raise ComparerException
+
+        data = CompareData.query.filter_by(user=current_user).first()
+        return Comparer(data.image_name, data.tournament)
+
+    @classmethod
+    def add(cls, image_name: str):
+        tournament = Comparer.make_tournament(image_name)
+        compare_data = CompareData(current_user, image_name, tournament)
 
         try:
-            compare_data_list = [CompareData(current_user.name, param)
-                                 for param in generate_random_param_list(player_num)]
-
-            db.session.add_all(compare_data_list)
+            db.session.add(compare_data)
             db.session.commit()
         except Exception:
             db.session.rollback()
@@ -58,52 +65,21 @@ class Comparer:
         finally:
             db.session.close()
 
-        encoder = EnhanceEncoder(image_path_dict[image_name])
-        player_group = EnhancePlayerGroup(encoder)
-
-        current_player_index_list, next_player_index_list = \
-            Tournament.make_player_index_list(player_num)
-        tournament = \
-            Tournament(player_group, current_player_index_list,
-                       next_player_index_list)
-
-        return cls(image_name, tournament)
+    @classmethod
+    def commit(cls, comparer: Comparer):
+        compare_data = CompareData.query.filter_by(user=current_user).first()
+        compare_data.image_name = comparer.image_name
+        compare_data.tournament = comparer.tournament
+        
+        try:
+            db.session.commit()
+        except Exception:
+            db.session.rollback()
+            raise SQLAlchemyError
+        finally:
+            db.session.close()
 
     @classmethod
-    def gen_from_dict(cls, session_dict: dict):
-        image_name = session_dict['image_name']
-
-        encoder = EnhanceEncoder(image_path_dict[image_name])
-        player_group = EnhancePlayerGroup(encoder)
-
-        tournament = \
-            Tournament(player_group, session_dict['current_player_index_list'],
-                       session_dict['next_player_index_list'])
-
-        return cls(image_name, tournament)
-
-    def to_dict(self) -> dict:
-        return {
-            'image_name': self.image_name,
-            'current_player_index_list': self.tournament.current_player_index_list,
-            'next_player_index_list': self.tournament.next_player_index_list,
-        }
-
-
-class ComparerSession:
-    component_name = 'comparer'
-
-    @classmethod
-    def is_in_session(cls) -> bool:
-        return cls.component_name in session
-
-    @classmethod
-    def get_from_session(cls) -> Comparer:
-        if not cls.is_in_session():
-            raise ComparerException
-
-        return Comparer.gen_from_dict(session.get(cls.component_name))
-
-    @classmethod
-    def add_in_session(cls, comparer: Comparer):
-        session[cls.component_name] = comparer.to_dict()
+    def delete(cls):
+        CompareData.query.filter_by(user=current_user).first().delete()
+        cls.commit()

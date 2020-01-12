@@ -1,7 +1,7 @@
 from flask import render_template, request
 from flask_login import login_required
 from application.services.compare_image import image_path_dict
-from application.services.compare_image import compare_bp, Comparer, ComparerSession
+from application.services.compare_image import compare_bp, CompareSession
 
 
 @compare_bp.route('/image')
@@ -28,13 +28,20 @@ def image():
 def select_image():
     image_name = request.form['select']
 
-    if not ComparerSession.is_in_session():
-        ComparerSession.add_in_session(
-            Comparer.gen_from_image_name(image_name))
+    if not CompareSession.is_in_session():
+        CompareSession.add(image_name)
 
-    comparer = ComparerSession.get_from_session()
+    comparer = CompareSession.get()
+    if comparer.image_name != image_name:
+        comparer.tournament = comparer.make_tournament(image_name)
+
     count = comparer.tournament.get_match_num
     is_complete, (left_player, right_player) = comparer.tournament.new_match()
+    CompareSession.commit(comparer)
+
+    after_player = CompareSession.get().tournament.current_player_index_list
+    print('before:', comparer.tournament.current_player_index_list)
+    print('after: ', after_player)
 
     return render_template('image/compare.html',
                            left_image=left_player.decode(),

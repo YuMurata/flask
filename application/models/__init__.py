@@ -5,5 +5,5 @@ from .compare_data import CompareData
 __all__ = [
     User,
     ScoredParam,
-    CompareData
+    CompareData, 
 ]
