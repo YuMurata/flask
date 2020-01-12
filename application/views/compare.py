@@ -29,7 +29,8 @@ def select_image():
     image_name = request.form['select']
 
     if not ComparerSession.is_in_session():
-        ComparerSession.add_in_session(Comparer(image_name))
+        ComparerSession.add_in_session(
+            Comparer.gen_from_image_name(image_name))
 
     comparer = ComparerSession.get_from_session()
     count = comparer.tournament.get_match_num
