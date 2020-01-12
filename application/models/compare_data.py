@@ -16,7 +16,7 @@ class CompareData(db.Model):
         self.user_name = user_name
 
         self.brightness = param['brightness']
-        self.color = param['color']
+        self.color = param['saturation']
         self.contrast = param['contrast']
         self.sharpness = param['sharpness']
 
