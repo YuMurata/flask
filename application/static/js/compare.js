@@ -16,14 +16,14 @@ $(document).ready(function () {
         var is_valid_input = Object.keys(key_dict).indexOf(key) >= 0
         if (is_valid_input) {
             $.ajax({
-                url: '/compare_image',
+                url: '/compare',
                 type: 'POST',
                 dataType: 'json',
                 data: { 'key': key_dict[key] },
             })
                 .done(function (data) {
                     if (data.is_complete) {
-                        window.location.href = '/image';
+                        window.location.href = '/image_list';
                     }
                     else {
                         $("#left_image").attr("src", data.left_image)
