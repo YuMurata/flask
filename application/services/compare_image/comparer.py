@@ -70,7 +70,7 @@ class CompareSession:
         compare_data = CompareData.query.filter_by(user=current_user).first()
         compare_data.image_name = comparer.image_name
         compare_data.tournament = comparer.tournament
-        
+
         try:
             db.session.commit()
         except Exception:
@@ -81,5 +81,13 @@ class CompareSession:
 
     @classmethod
     def delete(cls):
-        CompareData.query.filter_by(user=current_user).first().delete()
-        cls.commit()
+        data = CompareData.query.filter_by(user=current_user).first()
+
+        try:
+            db.session.delete(data)
+            db.session.commit()
+        except Exception:
+            db.session.rollback()
+            raise SQLAlchemyError
+        finally:
+            db.session.close()
