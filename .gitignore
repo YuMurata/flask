@@ -129,3 +129,4 @@ here.pth
 docker/
 application/sample.db
 application/views/sandbox
+scored_param/
