@@ -81,3 +81,5 @@ def compare():
                     'right_image': right_player.decode(),
                     "count": count,
                     'is_complete': is_complete})
+
+unko
