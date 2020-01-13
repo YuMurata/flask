@@ -50,7 +50,7 @@ def _save_param(comparer: Comparer):
     save_file_path = str(save_dir_path/f'scored_param{SUFFIX}')
     write(save_file_path, comparer.tournament.player_list)
 
-    new_param = ScoredParam(current_user.name, comparer.image_name)
+    new_param = ScoredParam(current_user, comparer.image_name)
 
     try:
         db.session.add(new_param)

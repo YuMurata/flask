@@ -16,3 +16,8 @@ class ScoredParam(db.Model):
     def __init__(self, user, image_name: str):
         self.user = user
         self.image_name = image_name
+
+    @classmethod
+    def is_in_database(cls, user, image_name: str):
+        data = cls.query.filter_by(user=user, image_name=image_name).first()
+        return data is not None

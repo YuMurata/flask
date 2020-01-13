@@ -11,7 +11,7 @@ def image():
         {
             'path': 'static/images/'+image_path.name,
             'name': name,
-            'is_compared': True
+            'is_compared': ScoredParam.is_in_database(current_user, name)
         }
         for name, image_path in image_path_dict.items()
     ]
