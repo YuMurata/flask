@@ -29,41 +29,50 @@
     </p>
 </div>
 
-<div class="tile is-ancestor has-background-white box">
 
-    <div class="tile is-parent is-vertical">
+<div class="box">
 
-        {% for image_dict_list in image_dict_table %}
-        <div class="tile box">
+    {% for image_dict_list in image_dict_table %}
+    <div class="columns has-background-white box">
 
-            {%  for image_dict in image_dict_list %}
-            <div class="tile is-parent is-3 is-vertical">
-                <div class="tile is-child">
-                    <figure class="image is-square">
-                        <img src="{{image_dict.path}}" alt="{{image_dict.name}}" class="thumbnail">
-                    </figure>
-                </div>
+        {%  for image_dict in image_dict_list %}
+        <div class="column">
 
-                <div class="tile is-child">
-                    {% if image_dict.is_compared %}
-                    <span class="checkmark">比較済み</span>
-                    {% else %}
-                    <span>未比較</span>
-                    {% endif %}
+            <figure class="image is-square">
+                <img src="{{image_dict.path}}" alt="{{image_dict.name}}" class="thumbnail">
+            </figure>
 
-                    <form method="POST" action=/select_image> <button class="button is-primary is-large" name="select"
-                        value={{image_dict.name}}>Go</button>
+            {% if image_dict.is_compared %}
+            <span class="checkmark">比較済み</span>
+            {% else %}
+            <span>未比較</span>
+            {% endif %}
+
+            {% if image_dict.is_compared %}
+            {% set is_disabled = '' %}
+            {% else %}
+            {% set is_disabled = 'disabled' %}
+            {% endif %}
+
+            <div class="columns">
+                <div class="column">
+                    <form method="POST" action=/select> <button class="button is-primary is-large" name="select"
+                        value={{image_dict.name}}>比較</button>
                     </form>
-
                 </div>
 
+                <div class="column">
+                    <form method="POST" action=/scored_image_list> <button class="button is-primary is-large" name="select"
+                        value={{image_dict.name}} {{is_disabled}}>確認</button>
+                    </form>
+                </div>
             </div>
-            {% endfor %}
 
         </div>
         {% endfor %}
 
     </div>
+    {% endfor %}
 
 </div>
 {% endblock %}
