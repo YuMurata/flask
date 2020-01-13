@@ -10,7 +10,7 @@ class CompareData(db.Model):
 
     user = db.relationship('User', backref=__tablename__)
 
-    image_name = db.Column(db.String)
+    image_name = db.Column(db.String(100))
     tournament = db.Column(db.PickleType)
 
     def __init__(self, user, image_name: str, tournament):
