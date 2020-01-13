@@ -11,7 +11,7 @@ class CompareData(db.Model):
     user = db.relationship('User', backref=__tablename__)
 
     image_name = db.Column(db.String(100))
-    tournament = db.Column(db.PickleType)
+    tournament = db.Column(db.LargeBinary(length=2**18))
 
     def __init__(self, user, image_name: str, tournament):
         self.user = user

@@ -29,7 +29,7 @@ def get_save_dir_path(user_name: str, image_name: str) -> Path:
     return save_dir_path
 
 
-def get_save_file_path(user_name: str, image_name: str)->Path:
+def get_save_file_path(user_name: str, image_name: str) -> Path:
     save_dir_path = get_save_dir_path(user_name, image_name)
     save_file_path = save_dir_path/file_name
 

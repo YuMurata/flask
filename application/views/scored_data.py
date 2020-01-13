@@ -35,4 +35,5 @@ def scored_image_list():
     image_list = [encoder.Encode(scored_param[1])
                   for scored_param in scored_param_list]
 
-    return render_template('image/scored_param.html', image_list=image_list, image_name=image_name)
+    return render_template('image/scored_param.html',
+                           image_list=image_list, image_name=image_name)

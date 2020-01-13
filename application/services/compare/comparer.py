@@ -6,6 +6,7 @@ from flask_login import current_user
 from application.database import db
 from application.models.compare_data import CompareData
 from sqlalchemy.exc import SQLAlchemyError
+import pickle
 
 
 class EnhancePlayer(Player):
@@ -49,12 +50,13 @@ class CompareSession:
             raise ComparerException
 
         data = CompareData.query.filter_by(user=current_user).first()
-        return Comparer(data.image_name, data.tournament)
+        return Comparer(data.image_name, pickle.loads(data.tournament))
 
     @classmethod
     def add(cls, image_name: str):
         tournament = Comparer.make_tournament(image_name)
-        compare_data = CompareData(current_user, image_name, tournament)
+        compare_data = CompareData(
+            current_user, image_name, pickle.dumps(tournament))
 
         try:
             db.session.add(compare_data)
@@ -69,7 +71,7 @@ class CompareSession:
     def commit(cls, comparer: Comparer):
         compare_data = CompareData.query.filter_by(user=current_user).first()
         compare_data.image_name = comparer.image_name
-        compare_data.tournament = comparer.tournament
+        compare_data.tournament = pickle.dumps(comparer.tournament)
 
         try:
             db.session.commit()
