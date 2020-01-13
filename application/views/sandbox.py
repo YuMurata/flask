@@ -1,7 +1,7 @@
 from flask import Blueprint, render_template, request
-from application.services.compare_image import image_path_dict, EnhanceEncoder
-from application.services.compare_image import ImageEnhancer, CompareSession
-from application.services.compare_image.Tournament import Tournament
+from application.services.compare import image_path_dict, EnhanceEncoder
+from application.services.compare import ImageEnhancer, CompareSession
+from application.services.compare.Tournament import Tournament
 from application.models import CompareData, ScoredParam, User
 from application.database import db
 from flask_login import login_required
