@@ -4,6 +4,7 @@ from .views import bp_list
 from .auth import create_login_manager
 from .config import get_config
 from .models import User
+from .error import error_list
 
 
 def create_app():
@@ -14,6 +15,9 @@ def create_app():
 
     for bp in bp_list:
         app.register_blueprint(bp)
+
+    for error in error_list:
+        app.register_error_handler(error.code, error.handler)
 
     login_manager = create_login_manager(app)
 
