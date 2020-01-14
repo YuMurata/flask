@@ -1,12 +1,10 @@
 FROM python:3.8
 
-ENTRYPOINT [ "bash", "-c" ]
+WORKDIR /web
 
-CMD ["cd","flask", "&&",\
-    " pip"," install", "pipenv", "&&",\
-    "pipenv","install", "&&",\
-    "pipenv", "shell", "&&",\
-    "flask", "db", "init", "&&",\
-    "flask", "db", "migrate", "&&",\
-    "flask", "db", "upgrade", "&&",\
-    "python", "run.py"]
+RUN pipenv shell &&\
+    pipenv install &&\
+    flask db init &&\
+    flask db migrate &&\
+    flask db upgrade
+

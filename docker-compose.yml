@@ -2,19 +2,19 @@ version: "3"
 services:
   db:
     container_name: example-db
-    image: mariadb:latest
+    build: ./database
     environment:
       MYSQL_ROOT_PASSWORD: p@ssw0rd
       MYSQL_DATABASE: database
     volumes:
-      - ./docker/db/data:/var/lib/mysql
-      - ./docker/db/my.cnf:/etc/mysql/conf.d/my.cnf
+      - ./database/db/data:/var/lib/mysql
+      - ./database/db/my.cnf:/etc/mysql/conf.d/my.cnf
     ports:
       - 7582:3306
 
   phpmyadmin:
     container_name: example-admin
-    image: phpmyadmin/phpmyadmin
+    build: ./phpmyadmin
     environment:
       - PMA_ARBITRARY=1
       - PMA_USER=root
@@ -23,11 +23,11 @@ services:
       - 10111:80
 
   python:
-    container_name: python38
-    image: python:3.8
+    container_name: web
+    build: ./web
 
     volumes:
-      - ./:/flask
+      - ./web:/web
     stdin_open: true
     tty: true
     ports:
