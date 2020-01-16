@@ -27,14 +27,16 @@ def get_folder_id(folder_path: str, make_parents: bool = False) -> str:
         title_query = f'title = "{folder_name}"'
         parents_query = f'"{parents_id}" in parents'
         mimeType_query = 'mimeType = "application/vnd.google-apps.folder"'
+        untrashed_query = 'trashed = false'
 
-        query = f'{title_query} and {parents_query} and {mimeType_query}'
+        query = ' and '.join(
+            [title_query, parents_query, mimeType_query, untrashed_query])
 
         try:
             folder_id = drive.ListFile({'q': query}).GetList()[0]['id']
         except IndexError:
             if make_parents:
-                logger.info(f'make {folder_name}')
+                logger.info(f'make {folder_name} in {parents_id}')
 
                 f_folder = drive.CreateFile({
                     'title': folder_name,
@@ -58,7 +60,10 @@ def get_file_id(folder_id: str, file_name: str) -> str:
     title_query = f'title = "{file_name}"'
     parents_query = f'"{folder_id}" in parents'
     mimeType_query = 'mimeType != "application/vnd.google-apps.folder"'
-    query = f'{title_query} and {parents_query} and {mimeType_query}'
+    untrashed_query = 'trashed = false'
+
+    query = ' and '.join(
+            [title_query, parents_query, mimeType_query, untrashed_query])
 
     try:
         file_id = drive.ListFile({'q': query}).GetList()[0]['id']
