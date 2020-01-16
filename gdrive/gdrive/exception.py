@@ -1,0 +1,2 @@
+class GDriveException(Exception):
+    pass
