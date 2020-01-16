@@ -1,5 +1,6 @@
 from logging\
-    import (Formatter, handlers, StreamHandler, getLogger, DEBUG, Handler, INFO)
+    import (Formatter, handlers, StreamHandler,
+            getLogger, DEBUG, Handler, INFO)
 import typing
 
 
