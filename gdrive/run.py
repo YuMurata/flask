@@ -1,6 +1,7 @@
 import time
 import datetime
 import schedule
+from oauth import drive
 
 
 def job():
@@ -8,8 +9,7 @@ def job():
 
 
 if __name__ == "__main__":
-    schedule.every(10).seconds.do(job)
-
+    schedule.every(5).seconds.do(upload)
     while True:
         schedule.run_pending()
         time.sleep(1)
