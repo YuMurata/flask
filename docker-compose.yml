@@ -43,3 +43,20 @@ services:
       flask db migrate &&
       flask db upgrade'
 
+  ftp:
+    container_name: ftp
+    build: ./ftp/base
+
+    volumes: 
+      - ./volumes:/ftp/volumes
+
+      ports:
+        - "21:21"
+        - "30000-30009:30000-30009"
+      
+      environment:
+        - PUBLICHOST=localhost
+        - FTP_USER_NAME=murata
+        - FTP_USER_PASS=12345678
+        - FTP_USER_HOME=/ftp/volumes
+        - ADDED_FLAGS="--tls=2"
