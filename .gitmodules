@@ -1,3 +1,9 @@
 [submodule "application/services/compare/Tournament"]
 	path = web/application/services/compare/Tournament
 	url = https://github.com/YuMurata/Tournament.git
+[submodule "enhancer/ImageRankNet"]
+	path = enhancer/Enhancer/ImageRankNet
+	url = https://github.com/YuMurata/ImageRankNet.git
+[submodule "enhancer/ParameterOptimizer"]
+	path = enhancer/Enhancer/ParameterOptimizer
+	url = https://github.com/YuMurata/ParameterOptimizer.git
