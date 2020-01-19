@@ -8,12 +8,16 @@ volumes
 ├─image
 │  ├─comparable
 │  ├─optimizable
+│  │  └─[flower]
 │  └─optimized
 │      └─[NIMA]
 │          └─[ResNet]
 └─users
     └─[user]
         ├─optimizes
+        │  ├─logs
+        │  │  └─[flower]
+        │  └─[flower]
         ├─scored_params
         └─weights
 ```
@@ -29,7 +33,9 @@ volumes
 ### optimizable
 * 補正用の画像入れるフォルダ
 * 一意のファイル名にするかカテゴリ別にフォルダ分けしてさらに名前つけるか
-    * 今のところ一意のファイル名にしたい
+    * ~~今のところ一意のファイル名にしたい~~
+    * フォルダ名でカテゴリ分け、さらに一意のファイル名がよさげ
+        * スコアリングは1種類につき一度を予定、補正は1種類当たり複数を予定してるから
 
 ### optimized
 * NIMAとかで補正済みの画像入れるフォルダ
@@ -52,6 +58,12 @@ volumes
 #### optimizes
 * 補正した画像入れるフォルダ
 * `optimizable`のファイル名と対応付けたい
+    * フォルダ名でカテゴリ分けしたほうがいいかも
+
+##### logs
+* GAのログ入れるフォルダ
+* `optimizable`のファイル名と対応付けたい
+    * フォルダ名でカテゴリ分けしたほうがいいかも
 
 #### scored_params
 * スコアリングデータ入れるフォルダ
