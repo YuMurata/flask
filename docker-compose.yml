@@ -42,7 +42,8 @@ services:
 
     volumes:
       - ./enhancer:/enhancer
-      - ./volumes:/enhancer/volumes
+      - ./volumes/users:/enhancer/volumes/users
+      - ./volumes/image/optimizable:/enhancer/volumes/optimizable
 
     stdin_open: true
     tty: true
