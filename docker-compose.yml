@@ -41,6 +41,7 @@ services:
     build: ./enhancer/base
 
     volumes:
+      - ./enhancer:/enhancer
       - ./volumes:/enhancer/volumes
 
     stdin_open: true
