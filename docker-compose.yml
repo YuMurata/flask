@@ -28,6 +28,7 @@ services:
 
     volumes:
       - ./web:/web
+      - ./volumes:/web/volumes
     stdin_open: true
     tty: true
     ports:
