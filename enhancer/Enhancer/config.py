@@ -7,5 +7,4 @@ class ImageInfo:
 
 
 class DirectoryPath:
-    weights = Path('volumes/weights')
-    optimize = Path('volumes/optimize')
+    users = Path('volumes/users')
