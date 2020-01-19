@@ -22,6 +22,8 @@ def optimize_image():
         optimize_dir = user_dir/'optimizes'
         optimize_dir.mkdir(exist_ok=True, parents=True)
 
+        scored_param_dir = user_dir/'scored_param'
+
         generator = ImageGenerator(image_path)
         image_path = None
         param_list, logbook = \
