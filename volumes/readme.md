@@ -6,8 +6,8 @@ volumesフォルダの構成案
 ```
 volumes
 ├─image
-│  ├─comparable
-│  ├─optimizable
+│  ├─comparables
+│  ├─optimizables
 │  │  └─[flower]
 │  └─optimized
 │      └─[NIMA]
@@ -15,9 +15,8 @@ volumes
 └─users
     └─[user]
         ├─optimizes
-        │  ├─logs
-        │  │  └─[flower]
         │  └─[flower]
+        │      └─logs
         ├─scored_params
         └─weights
 ```
@@ -25,12 +24,12 @@ volumes
 ## image
 * 比較用とか補正用の画像入れる
 
-### comparable
+### comparables
 * 比較用の画像入れるフォルダ
 * 一意のファイル名にするかカテゴリ別にフォルダ分けしてさらに名前つけるか
     * 今のところ一意のファイル名にしたい
 
-### optimizable
+### optimizables
 * 補正用の画像入れるフォルダ
 * 一意のファイル名にするかカテゴリ別にフォルダ分けしてさらに名前つけるか
     * ~~今のところ一意のファイル名にしたい~~
@@ -63,7 +62,6 @@ volumes
 ##### logs
 * GAのログ入れるフォルダ
 * `optimizable`のファイル名と対応付けたい
-    * フォルダ名でカテゴリ分けしたほうがいいかも
 
 #### scored_params
 * スコアリングデータ入れるフォルダ
