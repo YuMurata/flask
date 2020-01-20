@@ -4,12 +4,13 @@ volumesフォルダの構成予定
 
 ```
 volumes
-├─optimizable
+├─optimizables
 │  └─[flower]
 └─users
     └─[user]
         ├─optimizes
         │  └─[flower]
+        │      └─logs
         ├─scored_params
         └─weights
 ```
