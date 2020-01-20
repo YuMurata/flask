@@ -8,4 +8,4 @@ class ImageInfo:
 
 class DirectoryPath:
     users = Path('volumes/users')
-    optimizable = Path('volumes/optimizable')
+    optimizable = Path('volumes/optimizables')
