@@ -3,70 +3,76 @@ from .image_generator import ImageGenerator
 from .preference_predictor import PreferencePredictor
 from .ParameterOptimizer.ParameterOptimizer import Optimizer
 from .config import DirectoryPath, Path
+import pickle
+from .StateHolder import StateHolder
 from .logger import Logger
 
-logger = Logger(__name__)
+logger = Logger(__name__, log_file_path='logs/optimize.log')
 
 
-def optimize_category_image(category_dir: Path, weight_file_path: str,
-                            optimizes_dir: Path):
-    for image_path in category_dir.iterdir():
-        if image_path.is_dir():
-            logger.warn(f'{str(image_path)} is directory !')
-            continue
+def optimize_image(user_name: str, category_name: str, image_path: str,
+                   state_holder: StateHolder):
+    state_holder.image.recommit(user_name, category_name, image_path)
+    if not state_holder.image.is_commited:
+        return
 
-        generator = ImageGenerator(str(image_path))
-        param_list, logbook = \
-            Optimizer(PreferencePredictor(weight_file_path),
-                      generator,
-                      ParamDecoder()).optimize(30, param_list_num=1,
-                                               verbose=False)
+    user_dir = state_holder.user.user_dir
+    weight_file_path = state_holder.user.weight_file_path
 
-        save_dir = optimizes_dir / category_dir.name
-        save_dir.mkdir(exist_ok=True, parents=True)
-        save_file_path = str(save_dir / image_path.name)
+    generator = ImageGenerator(image_path)
+    param_list, logbook = \
+        Optimizer(PreferencePredictor(weight_file_path),
+                  generator,
+                  ParamDecoder()).optimize(30, param_list_num=1,
+                                           verbose=False)
 
-        generator.generate(param_list[0]).save(save_file_path)
+    image_name = state_holder.image.image_name
 
-
-def optmize_all_category_image(scored_param_name_list: list, user_dir: Path,
-                               weight_file_path: str):
     optimizes_dir = user_dir / 'optimizes'
 
+    image_save_dir = optimizes_dir / category_name
+    image_save_dir.mkdir(exist_ok=True, parents=True)
+    image_save_file_path = str(image_save_dir / image_name)
+
+    generator.generate(param_list[0]).save(image_save_file_path)
+
+    logbook_dir = image_save_dir / 'logs'
+    logbook_dir.mkdir(exist_ok=True, parents=True)
+    logbook_file_path = str(logbook_dir / image_name)
+
+    with open(logbook_file_path, 'w') as fp:
+        pickle.dump(logbook, fp)
+
+    logger.info(f'[{user_name}] optimize {image_name} in {category_name}')
+
+
+def optimize_category_image(user_name: str, category_name: str,
+                            state_holder: StateHolder):
+
+    state_holder.category.recommit(user_name, category_name)
+    if not state_holder.category.is_commited:
+        return
+
+    category_dir = state_holder.category.category_dir
+    for image_path in category_dir.iterdir():
+        optimize_image(user_name, category_name, str(image_path), state_holder)
+
+    logger.info(f'[{user_name}] optimize all image in {category_name}')
+
+
+def optimize_user(user_name: str, state_holder: StateHolder):
+    state_holder.user.recommit(user_name)
+    if not state_holder.user.is_commited:
+        return
+
     for category_dir in DirectoryPath.optimizable.iterdir():
-        if not category_dir.is_dir():
-            logger.warn(f'{str(category_dir)} is not directory !')
-            continue
+        optimize_category_image(user_name, category_dir.name, state_holder)
 
-        if category_dir.name not in scored_param_name_list:
-            logger.debug(
-                f'[{user_dir.name}] {category_dir.name} is not scoring')
-            continue
-
-        optimize_category_image(category_dir, weight_file_path, optimizes_dir)
-
-    logger.info(f'optimize all user')
+    logger.info(f'[{user_name}] optimize all image')
 
 
 def optimize_all_user():
     for user_dir in DirectoryPath.users.iterdir():
-        if not user_dir.is_dir():
-            logger.warn(f'{str(user_dir)} is not directory !')
-            continue
-
-        user_name = user_dir.name
-
-        weight_dir = user_dir / 'weights'
-        weight_file_path = weight_dir / 'weight.h5'
-        if not weight_file_path.exists():
-            logger.debug(f'[{user_name}] weight file is nothing')
-            continue
-
-        scored_param_dir = user_dir / 'scored_param'
-        scored_param_name_list = [
-            file_path.stem for file_path in scored_param_dir.iterdir()]
-
-        optmize_all_category_image(
-            scored_param_name_list, user_name, str(weight_file_path))
+        optimize_user(user_dir.name, StateHolder())
 
     logger.info('optimize all user')
