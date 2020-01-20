@@ -1,13 +1,10 @@
 import schedule
 import time
-
-
-def job():
-    print('hello')
+from Enhancer import optimize_all_user
 
 
 if __name__ == "__main__":
-    schedule.every(5).seconds.do(job)
+    schedule.every(5).seconds.do(optimize_all_user)
 
     while True:
         schedule.run_pending()
