@@ -1,3 +1,0 @@
-[submodule "application/services/compare/Tournament"]
-	path = web/application/services/compare/Tournament
-	url = https://github.com/YuMurata/Tournament.git
